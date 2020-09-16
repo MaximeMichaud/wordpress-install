@@ -424,7 +424,7 @@ function install_composer() {
 }
 
 function install_wp-cli() {
-  cd /opt
+  cd /opt || exit
   curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
   chmod +x wp-cli.phar
   mv wp-cli.phar /usr/local/bin/wp
