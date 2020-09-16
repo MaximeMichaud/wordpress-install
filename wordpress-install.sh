@@ -413,6 +413,7 @@ function install_wordpress() {
   wget -O latest.zip https://wordpress.org/latest.zip
   unzip latest.zip
   rm -rf latest.zip
+  mv /var/www/html/wordpress/* /var/www/html
   chmod -R 755 /var/www/html
   chown -R www-data:www-data /var/www/html
 }
