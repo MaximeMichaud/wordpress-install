@@ -29,7 +29,7 @@ This script supports the following Linux distributions:
 ## Supports
 * MySQL 5.7 - 8.0 & MariaDB 10.3 - 10.5
 * PHP 7.3 - 7.4
-* phpMyAdmin 5.0.2
+* phpMyAdmin 5.0.3
 * WP-Cli
 ## To-Do
 https://github.com/MaximeMichaud/wordpress-install/projects/1/
