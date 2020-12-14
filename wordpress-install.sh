@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# [Automatic installation on Linux for Azurium]
+# [Automatic installation on Linux for WordPress]
 #
 # GitHub : https://github.com/MaximeMichaud/wordpress-install
 # URL : https://wordpress.org
