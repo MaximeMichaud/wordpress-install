@@ -276,7 +276,7 @@ function aptinstall_mysql() {
       echo "deb-src http://repo.mysql.com/apt/debian/ stretch mysql-$database_ver" >>/etc/apt/sources.list.d/mysql.list
       apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
       apt-get update
-      apt-get install --allow-unauthenticated mysql-server mysql-client -y
+      apt-get install mysql-server mysql-client -y
       systemctl enable mysql && systemctl start mysql
     fi
     if [[ "$VERSION_ID" == "10" ]]; then
@@ -284,7 +284,7 @@ function aptinstall_mysql() {
       echo "deb-src http://repo.mysql.com/apt/debian/ buster mysql-$database_ver" >>/etc/apt/sources.list.d/mysql.list
       apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
       apt-get update
-      apt-get install --allow-unauthenticated mysql-server mysql-client -y
+      apt-get install mysql-server mysql-client -y
       systemctl enable mysql && systemctl start mysql
     fi
     if [[ "$VERSION_ID" == "11" ]]; then
@@ -292,7 +292,7 @@ function aptinstall_mysql() {
       echo "deb-src http://repo.mysql.com/apt/debian/ buster mysql-$database_ver" >>/etc/apt/sources.list.d/mysql.list
       apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
       apt-get update
-      apt-get install --allow-unauthenticated mysql-server mysql-client -y
+      apt-get install mysql-server mysql-client -y
       systemctl enable mysql && systemctl start mysql
     fi
     if [[ "$VERSION_ID" == "16.04" ]]; then
@@ -300,7 +300,7 @@ function aptinstall_mysql() {
       echo "deb-src http://repo.mysql.com/apt/ubuntu/ xenial mysql-$database_ver" >>/etc/apt/sources.list.d/mysql.list
       apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
       apt-get update
-      apt-get install --allow-unauthenticated mysql-server mysql-client -y
+      apt-get install mysql-server mysql-client -y
       systemctl enable mysql && systemctl start mysql
     fi
     if [[ "$VERSION_ID" == "18.04" ]]; then
@@ -308,7 +308,7 @@ function aptinstall_mysql() {
       echo "deb-src http://repo.mysql.com/apt/ubuntu/ bionic mysql-$database_ver" >>/etc/apt/sources.list.d/mysql.list
       apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
       apt-get update
-      apt-get install --allow-unauthenticated mysql-server mysql-client -y
+      apt-get install mysql-server mysql-client -y
       systemctl enable mysql && systemctl start mysql
     fi
     if [[ "$VERSION_ID" == "20.04" ]]; then
@@ -316,7 +316,7 @@ function aptinstall_mysql() {
       echo "deb-src http://repo.mysql.com/apt/ubuntu/ focal mysql-$database_ver" >>/etc/apt/sources.list.d/mysql.list
       apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
       apt-get update
-      apt-get install --allow-unauthenticated mysql-server mysql-client -y
+      apt-get install mysql-server mysql-client -y
       systemctl enable mysql && systemctl start mysql
     fi
   fi
