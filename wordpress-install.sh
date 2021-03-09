@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 #
 # [Automatic installation on Linux for WordPress]
 #
