@@ -10,7 +10,7 @@
 # chmod +x wordpress-install.sh
 # ./wordpress-install.sh
 #
-# wordpress-install Copyright (c) 2020 Maxime Michaud
+# wordpress-install Copyright (c) 2020-2021 Maxime Michaud
 # Licensed under MIT License
 #
 #   Permission is hereby granted, free of charge, to any person obtaining a copy
