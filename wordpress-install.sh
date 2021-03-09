@@ -6,7 +6,7 @@
 # URL : https://wordpress.org
 #
 # This script is intended for a quick and easy installation :
-# wget https://raw.githubusercontent.com/MaximeMichaud/wordpress-install/master/wordpress-install.sh
+# curl -O https://raw.githubusercontent.com/MaximeMichaud/wordpress-install/master/wordpress-install.sh
 # chmod +x wordpress-install.sh
 # ./wordpress-install.sh
 #
@@ -423,21 +423,20 @@ function update() {
 }
 
 function updatephpMyAdmin() {
-  rm -rf /usr/share/phpmyadmin/
-  mkdir /usr/share/phpmyadmin/
+  rm -rf /usr/share/phpmyadmin/*
   cd /usr/share/phpmyadmin/ || exit
-  wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip
-  unzip phpMyAdmin-latest-all-languages.zip
+  wget https://files.phpmyadmin.net/phpMyAdmin/$PHPMYADMIN_VER/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz -O /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz
+  tar xzf /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz --strip-components=1 --directory /usr/share/phpmyadmin
+  rm -f /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages
   PHPMYADMIN_VER=$(curl -s "https://api.github.com/repos/phpmyadmin/phpmyadmin/releases/latest" | grep -m1 '^[[:blank:]]*"name":' | cut -d \" -f 4)
   mv phpMyAdmin-$PHPMYADMIN_VER-all-languages/* /usr/share/phpmyadmin
-  rm /usr/share/phpmyadmin/phpMyAdmin-latest-all-languages.zip
-  rm -rf /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages
+  rm /usr/share/phpmyadmin/phpMyAdmin-latest-all-languages.tar
   # Create TempDir
   mkdir /usr/share/phpmyadmin/tmp || exit
   chown www-data:www-data /usr/share/phpmyadmin/tmp
   chmod 700 /var/www/phpmyadmin/tmp
   randomBlowfishSecret=$(openssl rand -base64 32)
-  sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" config.sample.inc.php >config.inc.php
+  sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" /usr/share/phpmyadmin/config.sample.inc.php >/usr/share/phpmyadmin/config.inc.php
 }
 
 initialCheck
