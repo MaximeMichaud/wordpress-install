@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 #
 # [Automatic installation on Linux for WordPress]
 #
@@ -24,7 +24,7 @@
 #   copies or substantial portions of the Software.
 #
 #################################################################################
-#Couleurs
+#Colors
 black=$(tput setaf 0)
 red=$(tput setaf 1)
 green=$(tput setaf 2)
@@ -211,19 +211,23 @@ function installQuestions() {
 }
 
 function aptupdate() {
+  if [[ "$OS" =~ (debian|ubuntu) ]]; then
   apt-get update
+  fi
 }
 function aptinstall() {
+  if [[ "$OS" =~ (debian|ubuntu) ]]; then
   apt-get -y install ca-certificates apt-transport-https dirmngr zip unzip lsb-release gnupg openssl curl
+  fi
 }
 
 function aptinstall_apache2() {
+  if [[ "$OS" =~ (debian|ubuntu) ]]; then
   apt-get install -y apache2
   a2enmod rewrite
-  wget https://raw.githubusercontent.com/MaximeMichaud/wordpress-install/master/conf/000-default.conf
-  mv 000-default.conf /etc/apache2/sites-available/
-  rm -rf 000-default.conf
+  wget -O /etc/apache2/sites-available/000-default.conf https://raw.githubusercontent.com/MaximeMichaud/wordpress-install/master/conf/000-default.conf
   service apache2 restart
+  fi
 }
 
 function aptinstall_mariadb() {
@@ -247,7 +251,7 @@ function aptinstall_mysql() {
   if [[ "$OS" =~ (debian|ubuntu) ]]; then
     echo "MYSQL Installation"
     if [[ "$database_ver" == "8.0" ]]; then
-	  wget https://raw.githubusercontent.com/MaximeMichaud/Azuriom-install/master/conf/default-auth-override.cnf -P /etc/mysql/mysql.conf.d
+	  wget https://raw.githubusercontent.com/MaximeMichaud/wordpress-install/master/conf/default-auth-override.cnf -P /etc/mysql/mysql.conf.d
     fi
     if [[ "$VERSION_ID" =~ (9|10|16.04|18.04|20.04) ]]; then
       echo "deb http://repo.mysql.com/apt/$ID/ $(lsb_release -sc) mysql-$database_ver" >/etc/apt/sources.list.d/mysql.list
@@ -300,20 +304,17 @@ function aptinstall_php() {
 function aptinstall_phpmyadmin() {
   echo "phpMyAdmin Installation"
   if [[ "$OS" =~ (debian|ubuntu) ]]; then
+    PHPMYADMIN_VER=$(curl -s "https://api.github.com/repos/phpmyadmin/phpmyadmin/releases/latest" | grep -m1 '^[[:blank:]]*"name":' | cut -d \" -f 4)
     mkdir /usr/share/phpmyadmin/ || exit
-    cd /usr/share/phpmyadmin/ || exit
-	PHPMYADMIN_VER=$(curl -s "https://api.github.com/repos/phpmyadmin/phpmyadmin/releases/latest" | grep -m1 '^[[:blank:]]*"name":' | cut -d \" -f 4)
-    wget https://files.phpmyadmin.net/phpMyAdmin/$PHPMYADMIN_VER/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz
-    tar xzf phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz
-    mv phpMyAdmin-$PHPMYADMIN_VER-all-languages/* /usr/share/phpmyadmin
-    rm /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz
-    rm -rf /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages
-    # Create TempDir
+	wget https://files.phpmyadmin.net/phpMyAdmin/$PHPMYADMIN_VER/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz -O /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz
+    tar xzf /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages.tar.gz --strip-components=1 --directory /usr/share/phpmyadmin
+    rm -f /usr/share/phpmyadmin/phpMyAdmin-$PHPMYADMIN_VER-all-languages
+    # Create phpMyAdmin TempDir
     mkdir /usr/share/phpmyadmin/tmp || exit
     chown www-data:www-data /usr/share/phpmyadmin/tmp
     chmod 700 /usr/share/phpmyadmin/tmp
     randomBlowfishSecret=$(openssl rand -base64 32)
-    sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" config.sample.inc.php >config.inc.php
+    sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" /usr/share/phpmyadmin/config.sample.inc.php >/usr/share/phpmyadmin/config.inc.php
     wget https://raw.githubusercontent.com/MaximeMichaud/wordpress-install/master/conf/phpmyadmin.conf
     ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
     mv phpmyadmin.conf /etc/apache2/sites-available/
@@ -363,8 +364,10 @@ function mod_cloudflare() {
 }
 
 function autoUpdate() {
+  if [[ "$OS" =~ (debian|ubuntu) ]]; then
   echo "Enable Automatic Updates..."
   apt-get install -y unattended-upgrades
+  fi
 }
 
 function setupdone() {
